@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         else done();
       });
     } else {
-      gulp.task('default', function() {
+      gulp.series(function(cb) {
         var count = grunttask.files.length;
         var errcount = 0;
         function isdone() {
@@ -53,8 +53,10 @@ module.exports = function(grunt) {
           });
           return s.pipe(concat(filename)).pipe(dest);
         });
+        cb();
+      })(function(err) {
+        console.log(err);
       });
-      gulp.start();
     }
   });
 
